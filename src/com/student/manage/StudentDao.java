@@ -61,7 +61,6 @@ public class StudentDao {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, studentId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            System.out.println(resultSet);
 
             while(resultSet.next()){
                 student.setStudentId(resultSet.getInt(1));
@@ -69,6 +68,13 @@ public class StudentDao {
                 student.setStudentPhone(resultSet.getString(3));
                 student.setStudentCity(resultSet.getString(4));
             }
+
+            System.out.println("\nStudent Details :");
+            System.out.println("ID : "+student.getStudentId());
+            System.out.println("NAME : "+student.getStudentName());
+            System.out.println("PHONE : "+student.getStudentPhone());
+            System.out.println("CITY : "+student.getStudentCity());
+            System.out.println();
 
             resultSet.close();
             preparedStatement.close();
@@ -80,9 +86,32 @@ public class StudentDao {
         return student;
     }
 
-    public void updateStudent(){
+    public static boolean updateToDatabase(Student student) {
+        boolean inserted = false;
+        try {
+            Connection connection = ConnectionProvider.createConnection();
 
+            String query = "UPDATE students SET sname = ?, sphone = ?, scity = ? WHERE sid = ?";
+
+            // Prepared Statement
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            // Set the values of parameters
+            preparedStatement.setString(1, student.getStudentName());
+            preparedStatement.setString(2, student.getStudentPhone());
+            preparedStatement.setString(3, student.getStudentCity());
+            preparedStatement.setInt(4,student.getStudentId());
+
+            // Execute
+            preparedStatement.executeUpdate();
+            inserted = true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return inserted;
     }
+
+
 
     public void deleteStudent() {
 

@@ -50,16 +50,35 @@ public class Start {
             } else if (c == 3) { // Display Student
                 System.out.println("Enter id to display");
                 int studentId = Integer.parseInt(br.readLine());
-                Student student = StudentDao.displayStudent(studentId);
-                System.out.println(student.getStudentId());
-                System.out.println(student.getStudentName());
-                System.out.println(student.getStudentPhone());
-                System.out.println(student.getStudentCity());
+                StudentDao.displayStudent(studentId);
 
-            } else if (c == 4) {
+            } else if (c == 4) { //update
                 System.out.println("Enter id to update");
                 int studentId = Integer.parseInt(br.readLine());
+
                 Student student = StudentDao.displayStudent(studentId);
+
+                System.out.println("Enter updated name (keep blank if no update needed)");
+                String name = br.readLine();
+
+                System.out.println("Enter updated phone number (keep blank if no update needed)");
+                String phone = br.readLine();
+
+                System.out.println("Enter updatetd city (keep blank if no update needed)");
+                String city = br.readLine();
+
+                if(!name.equals(""))student.setStudentName(name);
+                if(!city.equals(""))student.setStudentCity(city);
+                if(!phone.equals(""))student.setStudentPhone(phone);
+
+                boolean result = StudentDao.updateToDatabase(student);
+
+                if (result == true){
+                    System.out.println("Updated");
+                    StudentDao.displayStudent(student.getStudentId());
+                }
+                else System.out.println("Failed to update");
+
             } else {
                 break;
             }
