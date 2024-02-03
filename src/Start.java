@@ -15,7 +15,9 @@ public class Start {
             System.out.println("Press 1 to add student");
             System.out.println("Press 2 to delete student");
             System.out.println("Press 3 to display student");
-            System.out.println("Press 4 to exit api");
+            System.out.println("Press 4 to update student");
+            System.out.println("Press 5 to exit api");
+
             int c = Integer.parseInt(br.readLine());
 
             if (c == 1) { // Add Student
@@ -55,8 +57,11 @@ public class Start {
                 System.out.println(student.getStudentCity());
 
             } else if (c == 4) {
-                break;
+                System.out.println("Enter id to update");
+                int studentId = Integer.parseInt(br.readLine());
+                Student student = StudentDao.displayStudent(studentId);
             } else {
+                break;
             }
         }
         System.out.println("Thank you for using my application");
